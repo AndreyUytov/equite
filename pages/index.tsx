@@ -25,15 +25,45 @@ const GlobalGreed = styled('div')(({ theme }) => ({
 
 const AdventageItem = styled(GlobalGreed)(({ theme }) => ({
   gridColumn: '2 / -1',
+  marginBottom: 0,
 
   display: 'grid',
   gridTemplateColumns: '6fr 1fr 6fr',
   gridTemplateAreas: `'info . picture'`,
   alignItems: 'center',
   ":nth-child(even)": {
+    gridColumn: '1 / -2',
     gridTemplateAreas: `'picture . info'`,
+    '>:last-child': {
+      justifySelf: 'start',
+    },
   }
 }));
+
+const AdventagePicture = styled(Box)(({ theme }) => ({
+  gridArea: 'picture',
+  justifySelf: 'end'
+}));
+
+const AdventageInfo = styled(Box)(({ theme }) => ({
+  gridArea: 'info',
+}));
+
+const AdventageInfoBlock = ({children, caption, description}) => {
+  return (
+    <AdventageInfo>
+      <Typography variant='h3' sx={{ marginBottom: 4,fontWeight:600}}>
+          Иструмент мониторинга для трейдера, которому доверяют
+      </Typography>
+      <Typography sx={{marginBottom: 3}}>
+        Создайте портфолио со своими фактическими успехами  — 
+        повысьте доверие у заинтересованных людей.
+      </Typography>
+      {children}
+    </AdventageInfo>
+  )
+}
+
 
 
 interface Props {}
@@ -79,32 +109,23 @@ const Home: NextPage<Props> = ({}) => {
 
       <GlobalGreed>
         <AdventageItem>
-          <Box sx={{gridArea: 'info'}}>
-            <Typography variant='h3'>
-               Иструмент мониторинга для трейдера, которому доверяют
-            </Typography>
-            <Typography>
-              Создайте портфолио со своими фактическими успехами  — 
-              повысьте доверие у заинтересованных людей.
-            </Typography>
-            <Button>
+          <AdventageInfoBlock caption="Иструмент мониторинга    для трейдера, которому доверяют" description="Создайте портфолио со своими фактическими успехами  — повысьте доверие у заинтересованных людей.">
+            <Button variant="contained" sx={{textTransform: 'none', borderRadius: '6px', boxShadow: '0px 0px 15px rgba(41, 54, 125, 0.3)', p: '14px 32px',}}>
               Начать работу
             </Button>
-          </Box>
-
-          <Box sx={{gridArea: 'picture'}}>
-            <Image src={pic1} alt="bitcoin" />
-          </Box>
+          </AdventageInfoBlock>
+          <AdventagePicture>
+            <Image src={pic1} width={576} height={646} alt="bitcoin" />
+          </AdventagePicture>
         </AdventageItem>
 
         <AdventageItem>
-          <Box sx={{gridArea: 'info'}}>
-           ТЕКСТ
-          </Box>
+          <AdventageInfoBlock caption="Проверенные результаты" description="Объективные и сухие цифры подойдут не только для мониторинга своих результатов, но и для того, чтобы вызвать доверие у инвесторов или своей публики.">
+          </AdventageInfoBlock>
 
-          <Box sx={{gridArea: 'picture'}}>
-            <Image src={pic2} alt="bitcoin" />
-          </Box>
+          <AdventagePicture>
+            <Image src={pic2}  width={576} height={554} alt="bitcoin" />
+          </AdventagePicture>
         </AdventageItem>
       </GlobalGreed>
     </>
