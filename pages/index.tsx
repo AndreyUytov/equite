@@ -4,9 +4,10 @@ import { GetStaticPropsResult } from 'next';
 import Image from 'next/image'
 
 import Box from '@mui/system/Box';
-import Link from '@mui/material/Link';
 import { Button, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 
 import logo from '../src/images/logo.png';
@@ -15,34 +16,73 @@ import pic2 from '../src/images/2.png';
 
 
 const GlobalGreed = styled('div')(({ theme }) => ({
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(2),
+
   display: 'grid',
-  gridTemplateColumns: 'repeat(14, 1fr)',
-  gridColumnGap: theme.spacing(3),
+  gridTemplateColumns: '1fr',
   alignItems: 'center',
-  marginBottom: theme.spacing(15),
+  marginBottom: theme.spacing(8),
+
+  '@media(min-width: 768px)': {
+    paddingLeft: theme.spacing(0),
+    paddingRight: theme.spacing(0),
+
+    gridTemplateColumns: 'repeat(14, 1fr)',
+    gridColumnGap: theme.spacing(0),
+    alignItems: 'center',
+    marginBottom: theme.spacing(5),
+  },
+  '@media(min-width: 1200px)': {
+    gridColumnGap: theme.spacing(3),
+    marginBottom: theme.spacing(15),
+  }
 }));
 
 
-const AdventageItem = styled(GlobalGreed)(({ theme }) => ({
-  gridColumn: '2 / -1',
-  marginBottom: 0,
+const AdventageItem = styled('div')(({ theme }) => ({
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(2),
 
   display: 'grid',
-  gridTemplateColumns: '6fr 1fr 6fr',
-  gridTemplateAreas: `'info . picture'`,
+  gridRowGap: theme.spacing(1),
+  gridTemplateRows: '1fr auto',
+  gridTemplateAreas: `"picture"
+  "info"`,
   alignItems: 'center',
-  ":nth-child(even)": {
-    gridColumn: '1 / -2',
-    gridTemplateAreas: `'picture . info'`,
-    '>:last-child': {
-      justifySelf: 'start',
-    },
-  }
+  justifyItems: 'center',
+
+  '@media(min-width: 768px)': {
+    gridColumn: '2 / -1',
+  
+    paddingLeft: theme.spacing(0),
+    paddingRight: theme.spacing(0),
+
+    gridColumnGap: theme.spacing(0),
+    gridRowGap: theme.spacing(0),
+    gridTemplateColumns: '6fr 1fr 6fr',
+    gridTemplateAreas: `'info . picture'`,
+    alignItems: 'center',
+    ":nth-child(even)": {
+      gridColumn: '1 / -2',
+      gridTemplateAreas: `'picture . info'`,
+      '>:last-child': {
+        justifySelf: 'start',
+      },
+    }
+  },
+
+  '@media(min-width: 1200px)': {
+    gridColumnGap: theme.spacing(3),
+  },
+  
 }));
 
 const AdventagePicture = styled(Box)(({ theme }) => ({
   gridArea: 'picture',
-  justifySelf: 'end'
+  '@media(min-width: 768px)': {
+    justifySelf: 'end',
+  }
 }));
 
 const AdventageInfo = styled(Box)(({ theme }) => ({
@@ -52,18 +92,70 @@ const AdventageInfo = styled(Box)(({ theme }) => ({
 const AdventageInfoBlock = ({children, caption, description}) => {
   return (
     <AdventageInfo>
-      <Typography variant='h3' sx={{ marginBottom: 4,fontWeight:600}}>
-          Иструмент мониторинга для трейдера, которому доверяют
+      <Typography variant='h4' sx={{ marginBottom: 4,fontWeight:600}}>
+          {caption}
       </Typography>
       <Typography sx={{marginBottom: 3}}>
-        Создайте портфолио со своими фактическими успехами  — 
-        повысьте доверие у заинтересованных людей.
+        {description}
       </Typography>
       {children}
     </AdventageInfo>
   )
 }
 
+const CustomLink = styled('a')(({ theme }) => ({
+  marginRight: theme.spacing(2),
+  color: 'text.primary',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  '@media(min-width: 768px)': {
+    marginRight: theme.spacing(2),
+  },
+  '@media(min-width: 1200px)': {
+    marginRight: theme.spacing(4),
+  }
+}));
+
+const NavigationLink = ({children, href}) => {
+ const router = useRouter();
+ const weight = router.asPath === href ? 600 : 'normal';
+
+  return (
+    <Link href={href}>
+      <CustomLink sx={{fontWeight: weight}}>
+        {children}
+      </CustomLink>
+    </Link>
+  )
+}
+
+const NavigationList = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  flexWrap: 'wrap',
+  '@media(min-width: 768px)': {
+    gridColumn: '2 / 8',
+  }
+}));
+
+const UserBlock = styled('div')(({ theme }) => ({
+  width: '32px',
+  height: '32px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  flexWrap: 'wrap',
+  '@media(min-width: 768px)': {
+    width: 'auto',
+    height: 'auto',
+    gridColumn: '8 / -2',
+    justifySelf: 'end',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  }
+}));
 
 
 interface Props {}
@@ -71,40 +163,38 @@ interface Props {}
 const Home: NextPage<Props> = ({}) => {
   return (
     <>
-      <GlobalGreed sx={{marginTop: 5}}>
-        <Box sx={{gridColumn: '2 / 7', display: 'flex'}}>
+      <GlobalGreed sx={{marginTop: 5, gridTemplateColumns: '1fr auto',}}>
+        <NavigationList>
            <Box sx={{marginRight: 7}}>
             <Image src={logo} alt="logo" />
            </Box>
-            <Box sx={{display: 'flex', flexWrap: 'wrap',alignItems: 'center'}}>
-              <Link href='/' underline="none" color="text.primary" sx={{marginRight: 4, fontWeight: 600}}>
+           <NavigationLink href='/'>
                 Главная
-              </Link>
-              <Link href='/blog' underline="none" color="text.primary" sx={{marginRight: 4}}>
+              </NavigationLink>
+              <NavigationLink href='/blog'>
                 Блог
-              </Link>
-              <Link href='/rating' underline="none" color="text.primary" sx={{marginRight: 4}}>
+              </NavigationLink>
+              <NavigationLink href='/rating'>
                 Рейтинг
-              </Link>
-            </Box>
-        </Box>
+              </NavigationLink>
+        </NavigationList>
 
-        <Box sx={{gridColumn: '7 / -2', justifySelf: 'end'}}>
-              <Box sx={{display: 'flex',  flexWrap: 'wrap', alignItems: 'center'}}>
-                <Link href='/PRO' underline="none" color="text.primary" sx={{marginRight: 4}}>
-                  PRO
-                </Link>
-                <Link href='/en' underline="none" color="text.secondary" sx={{marginRight: 4}}>
-                  EN
-                </Link>
-                <Link href='/login' underline="none" color="text.primary" sx={{marginRight: 4}}>
-                  Войти
-                </Link>
-                <Button variant="outlined" color="secondary" sx={{textTransform: 'capitalize', borderRadius: '5px'}}>
-                  Зарегестрироваться
-                </Button>
-              </Box>
-            </Box>
+        <UserBlock>
+          <Box sx={{display: 'flex',  flexWrap: 'wrap', alignItems: 'center', justifyContent: 'flex-end'}}>
+            <NavigationLink href='/PRO'>
+              PRO
+            </NavigationLink>
+            <NavigationLink href='/en'>
+              EN
+            </NavigationLink>
+            <NavigationLink href='/login'>
+              Войти
+            </NavigationLink>
+            <Button variant="outlined" color="secondary" sx={{textTransform: 'capitalize', borderRadius: '5px'}}>
+              Зарегестрироваться
+            </Button>
+          </Box>
+        </UserBlock>
       </GlobalGreed>
 
       <GlobalGreed>
