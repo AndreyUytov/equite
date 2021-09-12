@@ -4,210 +4,27 @@ import { GetStaticPropsResult } from 'next';
 import Image from 'next/image'
 
 import Box from '@mui/system/Box';
-import { Button, Typography } from '@mui/material';
-import { styled } from '@mui/system';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import MenuIcon from '@mui/icons-material/Menu';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { Button } from '@mui/material';
+
+
+import GlobalGreed from '../components/global-greed';
+import {
+  AdventageInfoBlock,
+  AdventagePicture,
+  AdventageItem
+} from '../components/advantage';
+
+import {
+  NavigationList,
+  NavigationLink,
+  UserBlock,
+} from '../components/header';
 
 import logo from '../src/images/logo.png';
 import pic1 from '../src/images/1.png';
 import pic2 from '../src/images/2.png';
 
 
-
-const GlobalGreed = styled('div')(({ theme }) => ({
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(2),
-
-  display: 'grid',
-  gridTemplateColumns: '1fr',
-  alignItems: 'center',
-  marginBottom: theme.spacing(8),
-
-  '@media(min-width: 805px)': {
-    paddingLeft: theme.spacing(0),
-    paddingRight: theme.spacing(0),
-
-    gridTemplateColumns: 'repeat(14, 1fr)',
-    gridColumnGap: theme.spacing(0),
-    alignItems: 'center',
-    marginBottom: theme.spacing(5),
-  },
-  '@media(min-width: 1200px)': {
-    gridColumnGap: theme.spacing(3),
-    marginBottom: theme.spacing(15),
-  }
-}));
-
-
-const AdventageItem = styled('div')(({ theme }) => ({
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(2),
-
-  display: 'grid',
-  gridRowGap: theme.spacing(1),
-  gridTemplateRows: '1fr auto',
-  gridTemplateAreas: `"picture"
-  "info"`,
-  alignItems: 'center',
-  justifyItems: 'center',
-
-  '@media(min-width: 805px)': {
-    gridColumn: '2 / -1',
-  
-    paddingLeft: theme.spacing(0),
-    paddingRight: theme.spacing(0),
-
-    gridColumnGap: theme.spacing(0),
-    gridRowGap: theme.spacing(0),
-    gridTemplateColumns: '6fr 1fr 6fr',
-    gridTemplateAreas: `'info . picture'`,
-    alignItems: 'center',
-    ":nth-child(even)": {
-      gridColumn: '1 / -2',
-      gridTemplateAreas: `'picture . info'`,
-      '>:last-child': {
-        justifySelf: 'start',
-      },
-    }
-  },
-
-  '@media(min-width: 1200px)': {
-    gridColumnGap: theme.spacing(3),
-  },
-  
-}));
-
-const AdventagePicture = styled(Box)(({ theme }) => ({
-  gridArea: 'picture',
-  '@media(min-width: 805px)': {
-    justifySelf: 'end',
-  }
-}));
-
-const AdventageInfo = styled(Box)(({ theme }) => ({
-  gridArea: 'info',
-}));
-
-const AdventageInfoBlock = ({children, caption, description}) => {
-  return (
-    <AdventageInfo>
-      <Typography variant='h4' sx={{ marginBottom: 4,fontWeight:600}}>
-          {caption}
-      </Typography>
-      <Typography sx={{marginBottom: 3}}>
-        {description}
-      </Typography>
-      {children}
-    </AdventageInfo>
-  )
-}
-
-const CustomLink = styled('a')(({ theme }) => ({
-  marginRight: theme.spacing(2),
-  color: 'text.primary',
-  textDecoration: 'none',
-  cursor: 'pointer',
-  '@media(min-width: 805px)': {
-    marginRight: theme.spacing(2),
-  },
-  '@media(min-width: 1200px)': {
-    marginRight: theme.spacing(4),
-  }
-}));
-
-const NavigationLink = ({children, href}) => {
- const router = useRouter();
- const weight = router.asPath === href ? 600 : 'normal';
-
-  return (
-    <Link href={href}>
-      <CustomLink sx={{fontWeight: weight}}>
-        {children}
-      </CustomLink>
-    </Link>
-  )
-}
-
-const NavigationList = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  flexWrap: 'wrap',
-  '@media(min-width: 805px)': {
-    gridColumn: '2 / 8',
-  }
-}));
-
-const UserBlockWrapper = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  flexWrap: 'wrap',
-  overflow: 'hidden',
-  '@media(min-width: 805px)': {
-    gridColumn: '8 / -2',
-    justifySelf: 'end',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  }
-}));
-
-const UserBlock = ({children}) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  return (
-    <UserBlockWrapper>
-      <IconButton
-        sx={{'@media(min-width:805px)': {
-          display:'none',
-        }}}
-        size="large"
-        color="inherit"
-        aria-label="menu"
-        onClick={handleClick}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Menu
-        sx={{'@media(min-width:805px)': {
-          display:'none',
-        }}}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
-        {children.map((el)=> {
-          return (
-            <MenuItem onClick={handleClose}>{el}</MenuItem>
-          )
-        })}
-      </Menu>
-
-      <Box sx={{display: 'none', '@media(min-width:805px)': {
-          display:'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-        }}}>
-        {children}
-      </Box>
-
-    </UserBlockWrapper>
-  )
-}
 
 interface Props {}
 
