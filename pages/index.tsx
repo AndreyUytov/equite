@@ -8,11 +8,15 @@ import { Button, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 import logo from '../src/images/logo.png';
 import pic1 from '../src/images/1.png';
 import pic2 from '../src/images/2.png';
+
 
 
 const GlobalGreed = styled('div')(({ theme }) => ({
@@ -24,7 +28,7 @@ const GlobalGreed = styled('div')(({ theme }) => ({
   alignItems: 'center',
   marginBottom: theme.spacing(8),
 
-  '@media(min-width: 768px)': {
+  '@media(min-width: 805px)': {
     paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(0),
 
@@ -52,7 +56,7 @@ const AdventageItem = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyItems: 'center',
 
-  '@media(min-width: 768px)': {
+  '@media(min-width: 805px)': {
     gridColumn: '2 / -1',
   
     paddingLeft: theme.spacing(0),
@@ -80,7 +84,7 @@ const AdventageItem = styled('div')(({ theme }) => ({
 
 const AdventagePicture = styled(Box)(({ theme }) => ({
   gridArea: 'picture',
-  '@media(min-width: 768px)': {
+  '@media(min-width: 805px)': {
     justifySelf: 'end',
   }
 }));
@@ -108,7 +112,7 @@ const CustomLink = styled('a')(({ theme }) => ({
   color: 'text.primary',
   textDecoration: 'none',
   cursor: 'pointer',
-  '@media(min-width: 768px)': {
+  '@media(min-width: 805px)': {
     marginRight: theme.spacing(2),
   },
   '@media(min-width: 1200px)': {
@@ -134,21 +138,18 @@ const NavigationList = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-start',
   flexWrap: 'wrap',
-  '@media(min-width: 768px)': {
+  '@media(min-width: 805px)': {
     gridColumn: '2 / 8',
   }
 }));
 
-const UserBlock = styled('div')(({ theme }) => ({
-  width: '32px',
-  height: '32px',
+const UserBlockWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-start',
   flexWrap: 'wrap',
-  '@media(min-width: 768px)': {
-    width: 'auto',
-    height: 'auto',
+  overflow: 'hidden',
+  '@media(min-width: 805px)': {
     gridColumn: '8 / -2',
     justifySelf: 'end',
     flexWrap: 'wrap',
@@ -157,6 +158,56 @@ const UserBlock = styled('div')(({ theme }) => ({
   }
 }));
 
+const UserBlock = ({children}) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <UserBlockWrapper>
+      <IconButton
+        sx={{'@media(min-width:805px)': {
+          display:'none',
+        }}}
+        size="large"
+        color="inherit"
+        aria-label="menu"
+        onClick={handleClick}
+      >
+        <MenuIcon />
+      </IconButton>
+      <Menu
+        sx={{'@media(min-width:805px)': {
+          display:'none',
+        }}}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        {children.map((el)=> {
+          return (
+            <MenuItem onClick={handleClose}>{el}</MenuItem>
+          )
+        })}
+      </Menu>
+
+      <Box sx={{display: 'none', '@media(min-width:805px)': {
+          display:'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+        }}}>
+        {children}
+      </Box>
+
+    </UserBlockWrapper>
+  )
+}
 
 interface Props {}
 
@@ -165,7 +216,7 @@ const Home: NextPage<Props> = ({}) => {
     <>
       <GlobalGreed sx={{marginTop: 5, gridTemplateColumns: '1fr auto',}}>
         <NavigationList>
-           <Box sx={{marginRight: 7}}>
+           <Box sx={{ flexShrink: 2, marginRight: 1, '@media(min-width:805px)': {marginRight: 7}}}>
             <Image src={logo} alt="logo" />
            </Box>
            <NavigationLink href='/'>
@@ -180,8 +231,7 @@ const Home: NextPage<Props> = ({}) => {
         </NavigationList>
 
         <UserBlock>
-          <Box sx={{display: 'flex',  flexWrap: 'wrap', alignItems: 'center', justifyContent: 'flex-end'}}>
-            <NavigationLink href='/PRO'>
+          <NavigationLink href='/PRO'>
               PRO
             </NavigationLink>
             <NavigationLink href='/en'>
@@ -193,7 +243,6 @@ const Home: NextPage<Props> = ({}) => {
             <Button variant="outlined" color="secondary" sx={{textTransform: 'capitalize', borderRadius: '5px'}}>
               Зарегестрироваться
             </Button>
-          </Box>
         </UserBlock>
       </GlobalGreed>
 
