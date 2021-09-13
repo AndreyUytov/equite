@@ -2,6 +2,7 @@ import {
   Button,
   Dialog,
   DialogActions,
+  Paper,
   SvgIcon,
   TextField,
   Typography,
@@ -47,12 +48,16 @@ export default function Popup({ openPopup, setOpenPopup }) {
     );
   }
 
+  const CustomPaper = (props) => (
+    <Paper {...props} sx={{ borderRadius: '30px' }} />
+  );
+
   return (
     <Dialog
       maxWidth="sm"
       open={openPopup}
       onClose={handleClose}
-      PaperComponent="div"
+      PaperComponent={CustomPaper}
     >
       <Box
         sx={{
