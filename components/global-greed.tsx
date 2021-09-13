@@ -1,6 +1,5 @@
 import { styled } from '@mui/system';
 
-
 const GlobalGreed = styled('div')(({ theme }) => ({
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2),
@@ -22,6 +21,6 @@ const GlobalGreed = styled('div')(({ theme }) => ({
   '@media(min-width: 1200px)': {
     gridColumnGap: theme.spacing(3),
     marginBottom: theme.spacing(15),
-  }
+  },
 }));
-export default GlobalGreed
+export default GlobalGreed;

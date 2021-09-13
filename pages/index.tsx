@@ -1,17 +1,16 @@
 import type { NextPage } from 'next';
 import React from 'react';
 import { GetStaticPropsResult } from 'next';
-import Image from 'next/image'
+import Image from 'next/image';
 
 import Box from '@mui/system/Box';
 import { Button } from '@mui/material';
-
 
 import GlobalGreed from '../components/global-greed';
 import {
   AdventageInfoBlock,
   AdventagePicture,
-  AdventageItem
+  AdventageItem,
 } from '../components/advantage';
 
 import {
@@ -19,54 +18,69 @@ import {
   NavigationLink,
   UserBlock,
 } from '../components/header';
+import Popup from '../components/popup';
 
 import logo from '../src/images/logo.png';
 import pic1 from '../src/images/1.png';
 import pic2 from '../src/images/2.png';
 
-
-
 interface Props {}
 
 const Home: NextPage<Props> = ({}) => {
+  const [openPopup, setOpenPopup] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpenPopup(true);
+  };
   return (
     <>
-      <GlobalGreed sx={{marginTop: 5, gridTemplateColumns: '1fr auto',}}>
+      <Popup openPopup={openPopup} setOpenPopup={setOpenPopup} />
+      <GlobalGreed sx={{ marginTop: 5, gridTemplateColumns: '1fr auto' }}>
         <NavigationList>
-           <Box sx={{ flexShrink: 2, marginRight: 1, '@media(min-width:805px)': {marginRight: 7}}}>
+          <Box
+            sx={{
+              flexShrink: 2,
+              marginRight: 1,
+              '@media(min-width:805px)': { marginRight: 7 },
+            }}
+          >
             <Image src={logo} alt="logo" />
-           </Box>
-           <NavigationLink href='/'>
-                Главная
-              </NavigationLink>
-              <NavigationLink href='/blog'>
-                Блог
-              </NavigationLink>
-              <NavigationLink href='/rating'>
-                Рейтинг
-              </NavigationLink>
+          </Box>
+          <NavigationLink href="/">Главная</NavigationLink>
+          <NavigationLink href="/blog">Блог</NavigationLink>
+          <NavigationLink href="/rating">Рейтинг</NavigationLink>
         </NavigationList>
 
         <UserBlock>
-          <NavigationLink href='/PRO'>
-              PRO
-            </NavigationLink>
-            <NavigationLink href='/en'>
-              EN
-            </NavigationLink>
-            <NavigationLink href='/login'>
-              Войти
-            </NavigationLink>
-            <Button variant="outlined" color="secondary" sx={{textTransform: 'capitalize', borderRadius: '5px'}}>
-              Зарегестрироваться
-            </Button>
+          <NavigationLink href="/PRO">PRO</NavigationLink>
+          <NavigationLink href="/en">EN</NavigationLink>
+          <NavigationLink href="/login">Войти</NavigationLink>
+          <Button
+            onClick={handleClickOpen}
+            variant="outlined"
+            color="secondary"
+            sx={{ textTransform: 'capitalize', borderRadius: '5px' }}
+          >
+            Зарегестрироваться
+          </Button>
         </UserBlock>
       </GlobalGreed>
 
       <GlobalGreed>
         <AdventageItem>
-          <AdventageInfoBlock caption="Иструмент мониторинга    для трейдера, которому доверяют" description="Создайте портфолио со своими фактическими успехами  — повысьте доверие у заинтересованных людей.">
-            <Button variant="contained" sx={{textTransform: 'none', borderRadius: '6px', boxShadow: '0px 0px 15px rgba(41, 54, 125, 0.3)', p: '14px 32px',}}>
+          <AdventageInfoBlock
+            caption="Иструмент мониторинга    для трейдера, которому доверяют"
+            description="Создайте портфолио со своими фактическими успехами  — повысьте доверие у заинтересованных людей."
+          >
+            <Button
+              variant="contained"
+              sx={{
+                textTransform: 'none',
+                borderRadius: '6px',
+                boxShadow: '0px 0px 15px rgba(41, 54, 125, 0.3)',
+                p: '14px 32px',
+              }}
+            >
               Начать работу
             </Button>
           </AdventageInfoBlock>
@@ -76,17 +90,19 @@ const Home: NextPage<Props> = ({}) => {
         </AdventageItem>
 
         <AdventageItem>
-          <AdventageInfoBlock caption="Проверенные результаты" description="Объективные и сухие цифры подойдут не только для мониторинга своих результатов, но и для того, чтобы вызвать доверие у инвесторов или своей публики.">
-          </AdventageInfoBlock>
+          <AdventageInfoBlock
+            caption="Проверенные результаты"
+            description="Объективные и сухие цифры подойдут не только для мониторинга своих результатов, но и для того, чтобы вызвать доверие у инвесторов или своей публики."
+          />
 
           <AdventagePicture>
-            <Image src={pic2}  width={576} height={554} alt="bitcoin" />
+            <Image src={pic2} width={576} height={554} alt="bitcoin" />
           </AdventagePicture>
         </AdventageItem>
       </GlobalGreed>
     </>
-  )
-}
+  );
+};
 
 export async function getStaticProps(): Promise<GetStaticPropsResult<Props>> {
   return { props: {} };

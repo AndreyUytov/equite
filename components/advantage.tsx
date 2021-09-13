@@ -16,7 +16,7 @@ const AdventageItem = styled('div')(({ theme }) => ({
 
   '@media(min-width: 805px)': {
     gridColumn: '2 / -1',
-  
+
     paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(0),
 
@@ -25,44 +25,42 @@ const AdventageItem = styled('div')(({ theme }) => ({
     gridTemplateColumns: '6fr 1fr 6fr',
     gridTemplateAreas: `'info . picture'`,
     alignItems: 'center',
-    ":nth-child(even)": {
+    ':nth-child(even)': {
       gridColumn: '1 / -2',
       gridTemplateAreas: `'picture . info'`,
       '>:last-child': {
         justifySelf: 'start',
       },
-    }
+    },
   },
 
   '@media(min-width: 1200px)': {
     gridColumnGap: theme.spacing(3),
   },
-  
 }));
 
-const AdventagePicture = styled(Box)(({ theme }) => ({
+const AdventagePicture = styled(Box)(() => ({
   gridArea: 'picture',
   '@media(min-width: 805px)': {
     justifySelf: 'end',
-  }
+  },
 }));
 
-const AdventageInfo = styled(Box)(({ theme }) => ({
+const AdventageInfo = styled(Box)(() => ({
   gridArea: 'info',
 }));
 
-const AdventageInfoBlock = ({children, caption, description}) => {
+const AdventageInfoBlock = (props) => {
+  const { children, caption, description } = props;
   return (
     <AdventageInfo>
-      <Typography variant='h4' sx={{ marginBottom: 4,fontWeight:600}}>
-          {caption}
+      <Typography variant="h4" sx={{ marginBottom: 4, fontWeight: 600 }}>
+        {caption}
       </Typography>
-      <Typography sx={{marginBottom: 3}}>
-        {description}
-      </Typography>
+      <Typography sx={{ marginBottom: 3 }}>{description}</Typography>
       {children}
     </AdventageInfo>
-  )
-}
+  );
+};
 
-export {AdventageInfoBlock, AdventageInfo, AdventagePicture, AdventageItem}
+export { AdventageInfoBlock, AdventageInfo, AdventagePicture, AdventageItem };
